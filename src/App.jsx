@@ -31,7 +31,7 @@ export default function App() {
   const { player, updateLevelStats } = usePlayer();
 
   return (
-    <Router>
+    <Router basename="/The_flag_game/">
       <div className="app-container">
         <Navbar player={player} />
         <AnimatedRoutes player={player} updateLevelStats={updateLevelStats} />
