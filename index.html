@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlagQuest — Country Flag Quiz Game</title>
+  <meta name="description" content="Test your world geography knowledge! Identify country flags across 5 difficulty levels. Play FlagQuest — the ultimate flag quiz game." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SCREEN 1 — HOME
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="screen-home" class="screen hidden" role="main" aria-label="FlagQuest Home">
+    <div class="page-wrap">
+
+      <!-- Hero -->
+      <header class="home-hero">
+        <span class="hero-globe" aria-hidden="true">🌍</span>
+        <h1 class="hero-title">FlagQuest</h1>
+        <p class="hero-subtitle">How many flags of the world can you identify?</p>
+        <div class="hero-stats" aria-live="polite">
+          <span>⭐</span>
+          <span id="total-stars">0</span>
+          <span style="color: #94a3b8; font-weight: 400">&nbsp;total stars</span>
+        </div>
+      </header>
+
+      <!-- Level Cards -->
+      <section aria-label="Select a level">
+        <p class="home-section-title">Choose your level</p>
+      <div class="levels-grid">
+
+          <!-- Level 1 -->
+          <button class="level-card" id="level-card-1" data-level="1" aria-label="Level 1: Rookie">
+            <div class="card-header">
+              <span class="card-emoji" aria-hidden="true">🌍</span>
+              <span class="card-level-badge">Level 1</span>
+            </div>
+            <div class="card-name">Rookie</div>
+            <div class="card-desc">30 flags &bull; 4 choices &bull; No timer</div>
+            <div class="card-stars" aria-label="Stars earned"></div>
+            <div class="card-score"></div>
+            <div class="lock-overlay" aria-hidden="true">🔒</div>
+            <div class="stars-needed"></div>
+          </button>
+
+          <!-- Level 2 -->
+          <button class="level-card" id="level-card-2" data-level="2" aria-label="Level 2: Explorer">
+            <div class="card-header">
+              <span class="card-emoji" aria-hidden="true">🧭</span>
+              <span class="card-level-badge">Level 2</span>
+            </div>
+            <div class="card-name">Explorer</div>
+            <div class="card-desc">60 flags &bull; 4 choices &bull; 20s timer</div>
+            <div class="card-stars" aria-label="Stars earned"></div>
+            <div class="card-score"></div>
+            <div class="lock-overlay" aria-hidden="true">🔒</div>
+            <div class="stars-needed"></div>
+          </button>
+
+          <!-- Level 3 -->
+          <button class="level-card" id="level-card-3" data-level="3" aria-label="Level 3: Adventurer">
+            <div class="card-header">
+              <span class="card-emoji" aria-hidden="true">⚔️</span>
+              <span class="card-level-badge">Level 3</span>
+            </div>
+            <div class="card-name">Adventurer</div>
+            <div class="card-desc">100 flags &bull; 4 choices &bull; 15s timer</div>
+            <div class="card-stars" aria-label="Stars earned"></div>
+            <div class="card-score"></div>
+            <div class="lock-overlay" aria-hidden="true">🔒</div>
+            <div class="stars-needed"></div>
+          </button>
+
+          <!-- Level 4 -->
+          <button class="level-card" id="level-card-4" data-level="4" aria-label="Level 4: Master">
+            <div class="card-header">
+              <span class="card-emoji" aria-hidden="true">🏆</span>
+              <span class="card-level-badge">Level 4</span>
+            </div>
+            <div class="card-name">Master</div>
+            <div class="card-desc">150 flags &bull; 6 choices &bull; 12s timer</div>
+            <div class="card-stars" aria-label="Stars earned"></div>
+            <div class="card-score"></div>
+            <div class="lock-overlay" aria-hidden="true">🔒</div>
+            <div class="stars-needed"></div>
+          </button>
+
+          <!-- Level 5 — spans full width so it's centered -->
+          <button class="level-card level-card-last" id="level-card-5" data-level="5" aria-label="Level 5: Legend">
+            <div class="card-header">
+              <span class="card-emoji" aria-hidden="true">👑</span>
+              <span class="card-level-badge">Level 5</span>
+            </div>
+            <div class="card-name">Legend</div>
+            <div class="card-desc">All 195 flags &bull; 6 choices &bull; 10s timer</div>
+            <div class="card-stars" aria-label="Stars earned"></div>
+            <div class="card-score"></div>
+            <div class="lock-overlay" aria-hidden="true">🔒</div>
+            <div class="stars-needed"></div>
+          </button>
+
+        </div><!-- /levels-grid -->
+      </section>
+
+      <!-- Home actions -->
+      <div class="home-actions">
+        <button id="btn-leaderboard" class="btn-ghost">📊 Leaderboard</button>
+      </div>
+
+    </div><!-- /page-wrap -->
+  </div><!-- /screen-home -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SCREEN 2 — GAME
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="screen-game" class="screen hidden" role="main" aria-label="FlagQuest Game">
+
+    <!-- Top HUD bar -->
+    <div class="game-topbar" role="toolbar" aria-label="Game HUD">
+      <div class="hud-left">
+        <div class="hud-badge hud-score" aria-label="Score">
+          🎯 <span id="hud-score" aria-live="polite">0</span>
+        </div>
+        <div class="hud-badge" id="hud-streak" aria-label="Streak" aria-live="polite">🔥 0</div>
+      </div>
+      <div class="hud-right">
+        <div id="hud-lives" class="hud-lives" aria-label="Lives remaining" aria-live="polite"></div>
+        <button id="btn-hint" class="hud-hint-btn" aria-label="Use hint" title="Use hint (H key)">
+          <span class="hint-icon">💡</span>
+          <span class="hint-pips" id="hud-hint-pips"></span>
+        </button>
+        <button id="btn-pause" class="btn-icon" aria-label="Pause game" title="Pause (Esc)">⏸</button>
+      </div>
+    </div>
+
+    <!-- Timer bar -->
+    <div class="timer-container" role="progressbar" aria-label="Time remaining">
+      <div id="timer-bar-fill" class="timer-bar-fill" style="width:100%"></div>
+      <span id="timer-label" class="timer-label"></span>
+    </div>
+
+    <!-- Question -->
+    <div class="question-area">
+      <div id="question-progress" class="question-progress" aria-live="polite">1 / 15</div>
+      <div class="progress-track" aria-hidden="true">
+        <div id="progress-fill" class="progress-fill" style="width:0%"></div>
+      </div>
+      <p class="question-label">Which flag belongs to</p>
+      <h2 id="question-country" class="question-country" aria-live="polite"></h2>
+    </div>
+
+    <!-- Points popup -->
+    <div id="points-popup" class="points-popup" aria-live="assertive" aria-atomic="true"></div>
+
+    <!-- Flag choices -->
+    <div id="choices-grid" class="choices-grid cols-2" role="group" aria-label="Flag choices"></div>
+
+    <!-- Pause overlay -->
+    <div id="pause-overlay" class="pause-overlay" role="dialog" aria-label="Game paused" aria-modal="true">
+      <h2>⏸ Paused</h2>
+      <p style="color: var(--text-secondary);">Take a breather!</p>
+      <button id="btn-resume" class="btn-primary">▶ Resume</button>
+      <button id="btn-quit-game" class="btn-ghost">🏠 Quit to Home</button>
+    </div>
+
+  </div><!-- /screen-game -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SCREEN 3 — RESULT
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="screen-result" class="screen hidden" role="main" aria-label="Round Results">
+    <div class="result-wrap">
+
+      <p id="result-level-name" class="result-level-name"></p>
+      <h2 class="result-title">Round Complete!</h2>
+
+      <!-- Stars -->
+      <div id="result-stars" class="result-stars" aria-label="Stars earned" aria-live="polite"></div>
+
+      <!-- Score -->
+      <div id="result-score" class="result-score-big" aria-live="polite">0</div>
+      <p id="result-correct" class="result-correct"></p>
+
+      <!-- New record badge -->
+      <div id="result-new-record" class="result-new-record">🏆 New High Score!</div>
+
+      <!-- Unlock notice -->
+      <div id="unlock-notice" class="unlock-notice" aria-live="polite"></div>
+
+      <!-- Actions -->
+      <div class="result-actions">
+        <button id="btn-retry" class="btn-ghost" data-level="1">🔄 Try Again</button>
+        <button id="btn-next-level" class="btn-primary" data-level="2" style="display:none">Next Level ➜</button>
+        <button id="btn-back-home" class="btn-ghost">🏠 Home</button>
+      </div>
+
+    </div>
+  </div><!-- /screen-result -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SCREEN 4 — LEADERBOARD
+  ═══════════════════════════════════════════════════════════ -->
+  <div id="screen-leaderboard" class="screen hidden" role="main" aria-label="Leaderboard">
+    <div class="leaderboard-wrap">
+
+      <h2 class="lb-title">📊 Leaderboard</h2>
+
+      <div class="lb-summary">
+        <div class="lb-stat">
+          <div id="lb-total-stars" class="lb-stat-val">0</div>
+          <div class="lb-stat-label">Total Stars</div>
+        </div>
+        <div class="lb-stat">
+          <div id="lb-total-games" class="lb-stat-val">0</div>
+          <div class="lb-stat-label">Games Played</div>
+        </div>
+      </div>
+
+      <table class="lb-table" aria-label="Level high scores">
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Best Score</th>
+            <th>Stars</th>
+            <th>Played</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-tbody"></tbody>
+      </table>
+
+      <div class="lb-actions">
+        <button id="btn-lb-back" class="btn-ghost">← Back</button>
+        <button id="btn-reset-progress" class="btn-danger">🗑 Reset Progress</button>
+      </div>
+
+    </div>
+  </div><!-- /screen-leaderboard -->
+
+
+  <!-- ═══════ Scripts ═══════ -->
+  <script src="js/data.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
